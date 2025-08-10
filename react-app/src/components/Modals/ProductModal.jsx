@@ -16,10 +16,9 @@ const initialState = {
   price: '',
   photo: '',
   description: '',
-}
+};
 
 const ProductModal = ({ open, handleClose, handleSave, product, isEdit }) => {
-
   const [formData, setFormData] = useState(initialState);
 
   useEffect(() => {

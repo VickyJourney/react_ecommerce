@@ -4,15 +4,19 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductModal from '../components/Modals/ProductModal';
+import ConfirmDelete from '../components/Modals/ConfirmDelete';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addProductRequest,
+  deleteProductRequest,
   fetchProductsRequest,
+  updateProductRequest,
 } from '../redux/slice/ProductSlice';
 
 const ProductsTable = () => {
   const [selectedRowId, setSelectedRowId] = useState(null);
   const [isProductModalOpen, setProductModalOpen] = useState(false);
+  const [isConfirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const navigate = useNavigate();
@@ -25,23 +29,41 @@ const ProductsTable = () => {
   }, [dispatch]);
 
   const handleEdit = (id) => {
-    console.log('Edit product:', id);
+    const productToEdit = products.find((p) => p.id === id);
+    if (productToEdit) {
+      setSelectedProduct(productToEdit);
+      setProductModalOpen(true);
+    }
+  };
+
+  const handleSave = (product) => {
+    if (product.id) {
+      dispatch(updateProductRequest(product));
+    } else {
+      dispatch(addProductRequest(product));
+    }
+    setProductModalOpen(false);
   };
 
   const handleDelete = (id) => {
-    console.log('Delete product:', id);
+    const productToDelete = products.find((p) => p.id === id);
+    if (productToDelete) {
+      setSelectedProduct(productToDelete);
+      setConfirmDeleteOpen(true);
+    }
+  };
+
+  const handleDeleteProduct = (id) => {
+    if (id) {
+      dispatch(deleteProductRequest(id));
+    }
+    setConfirmDeleteOpen(false);
   };
 
   const handleAddProduct = () => {
     setSelectedRowId(null);
     setProductModalOpen(true);
     setSelectedProduct(null);
-  };
-
-  const handleSave = (product) => {
-    console.log('Save product:', product);
-    dispatch(addProductRequest(product));
-    setProductModalOpen(false);
   };
 
   const columns = [
@@ -141,7 +163,7 @@ const ProductsTable = () => {
           sx={{
             '& .Mui-selected-row': {
               bgcolor: '#37b86c',
-              color: 'white',
+              color: 'black',
               fontWeight: 'bold',
               '&:hover': { bgcolor: '#4a8b4a' },
             },
@@ -153,6 +175,12 @@ const ProductsTable = () => {
           handleSave={handleSave}
           product={selectedProduct}
           isEdit={!!selectedProduct}
+        />
+        <ConfirmDelete
+          open={isConfirmDeleteOpen}
+          handleClose={() => setConfirmDeleteOpen(false)}
+          handleConfirm={() => handleDeleteProduct(selectedProduct.id)}
+          product={selectedProduct}
         />
       </Box>
     </Box>
