@@ -13,6 +13,8 @@ The application includes a simple login system for admin access.
 
 Use these credentials to log in and access product management features.
 
+---
+
 ### Key Features
 
 - Display products in a paginated, sortable table with edit and delete functionality.
