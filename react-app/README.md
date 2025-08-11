@@ -1,12 +1,34 @@
-# React + Vite
+# Products Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This is a **React-based** web application for managing products. It allows users to view, add, edit, and delete products using a modern UI powered by **Material-UI (MUI)** components and **Redux** for state management. The backend API is accessed via **Axios** calls integrated with **Redux-Saga** for side effects and async handling.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Login Information
 
-## Expanding the ESLint configuration
+The application includes a simple login system for admin access.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Username: admin
+2. Password: password1
+
+Use these credentials to log in and access product management features.
+
+### Key Features
+
+- Display products in a paginated, sortable table with edit and delete functionality.
+- Add new products through a modal form with validation (using **Formik**).
+- View a product preview page showing product images, price, and quantity.
+- Redux store manages the product state efficiently with async data fetching using **Redux-Saga**.
+- Error handling and loading states are managed and displayed appropriately.
+- Responsive design with Material-UI Grid and Card components.
+- Photo URLs are validated and fallback images are shown if the URL is invalid or missing.
+
+### Technologies Used
+
+- React
+- Redux Toolkit & Redux Saga
+- React Router DOM
+- Material-UI (MUI)
+- Axios
+- Formik (for form management and validation)
+- MockAPI (or any RESTful backend API)
