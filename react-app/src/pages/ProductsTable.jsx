@@ -81,14 +81,14 @@ const ProductsTable = () => {
         <>
           <IconButton
             size='small'
-            color='primary'
+            color='black'
             onClick={() => handleEdit(params.row.id)}
           >
             <Edit />
           </IconButton>
           <IconButton
             size='small'
-            color='error'
+            color='black'
             onClick={() => handleDelete(params.row.id)}
           >
             <Delete />
@@ -102,12 +102,13 @@ const ProductsTable = () => {
     <Box sx={{ bgcolor: '#37b86c', minHeight: '100vh', p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
         <Button
-          startIcon={<PersonOutline />}
+          startIcon={<PersonOutline sx={{ color: 'black' }} />}
           variant='outlined'
           sx={{
             color: '#37b86c',
             bgcolor: 'white',
             fontWeight: 'bold',
+            width: '180px',
             '&:hover': { bgcolor: '#D9D9D9' },
           }}
           onClick={() => navigate('/productsPreview')}
@@ -115,12 +116,13 @@ const ProductsTable = () => {
           Preview
         </Button>
         <Button
-          startIcon={<Add />}
+          startIcon={<Add sx={{ color: 'black' }} />}
           variant='outlined'
           sx={{
             color: '#37b86c',
             bgcolor: 'white',
             fontWeight: 'bold',
+            width: '180px',
             '&:hover': { bgcolor: '#D9D9D9' },
           }}
           onClick={() => handleAddProduct()}
@@ -138,16 +140,6 @@ const ProductsTable = () => {
         sx={{
           bgcolor: 'white',
           borderRadius: 1,
-          '& .MuiDataGrid-row:nth-of-type(odd)': {
-            bgcolor: '#f9f9f9',
-          },
-          '& .MuiDataGrid-row:hover': {
-            bgcolor: '#a8d5a8',
-            cursor: 'pointer',
-          },
-          '& .MuiDataGrid-cell:focus': {
-            outline: 'none',
-          },
         }}
       >
         <DataGrid
@@ -161,11 +153,21 @@ const ProductsTable = () => {
             params.id === selectedRowId ? 'Mui-selected-row' : ''
           }
           sx={{
-            '& .Mui-selected-row': {
-              bgcolor: '#37b86c',
-              color: 'black',
+            '& .MuiDataGrid-columnHeader': {
+              backgroundColor: '#0EC86F',
+            },
+            '& .MuiDataGrid-columnHeaderTitle': {
               fontWeight: 'bold',
-              '&:hover': { bgcolor: '#4a8b4a' },
+              color: '#726969',
+            },
+            '& .MuiDataGrid-row:nth-of-type(even)': {
+              backgroundColor: '#79f0b6ff',
+            },
+            '& .MuiDataGrid-row:hover': {
+              cursor: 'pointer',
+            },
+            '& .MuiDataGrid-cell:focus': {
+              outline: 'none',
             },
           }}
         />

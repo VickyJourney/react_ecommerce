@@ -9,18 +9,12 @@ import {
   updateProductSuccess,
   updateProductFailure,
 } from '../slice/ProductSlice';
-import API from '../constants/constants';
-// import {
-//   getProducts,
-//   addProduct,
-//   deleteProduct,
-// } from '../../utils/ProductsAPI';
+import * as productAPI from '../../utils/ProductsAPI';
 
 export function* fetchProductsWorker() {
   try {
-    const response = yield call(fetch, API.URL_PRODUCTS);
-    const data = yield response.json();
-    yield put(fetchProductsSuccess(data));
+    const response = yield call(productAPI.getProducts);
+    yield put(fetchProductsSuccess(response.data));
   } catch (error) {
     yield put(fetchProductsFailure(error.message));
   }
@@ -28,9 +22,7 @@ export function* fetchProductsWorker() {
 
 export function* deleteProductWorker(action) {
   try {
-    yield call(fetch, `${API.URL_PRODUCTS}/${action.payload}`, {
-      method: 'DELETE',
-    });
+    yield call(productAPI.deleteProduct, action.payload);
     yield put(deleteProductSuccess(action.payload));
   } catch (error) {
     yield put(deleteProductFailure(error.message));
@@ -39,13 +31,8 @@ export function* deleteProductWorker(action) {
 
 export function* addProductWorker(action) {
   try {
-    const response = yield call(fetch, API.URL_PRODUCTS, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(action.payload),
-    });
-    const data = yield response.json();
-    yield put(addProductSuccess(data));
+    const response = yield call(productAPI.addProduct, action.payload);
+    yield put(addProductSuccess(response.data));
   } catch (error) {
     yield put(addProductFailure(error.message));
   }
@@ -54,16 +41,11 @@ export function* addProductWorker(action) {
 export function* updateProductWorker(action) {
   try {
     const response = yield call(
-      fetch,
-      `${API.URL_PRODUCTS}/${action.payload.id}`,
-      {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(action.payload),
-      }
+      productAPI.updateProduct,
+      action.payload.id,
+      action.payload
     );
-    const data = yield response.json();
-    yield put(updateProductSuccess(data));
+    yield put(updateProductSuccess(response.data));
   } catch (error) {
     yield put(updateProductFailure(error.message));
   }

@@ -7,17 +7,41 @@ import {
   Typography,
   Box,
 } from '@mui/material';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
-const ProductsPreview = ({ products = [] }) => {
+const ProductsPreview = () => {
+  const { products } = useSelector((state) => state.products);
+
+  const navigate = useNavigate();
+
+  const isValidUrl = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    if (!products || products.length === 0) {
+      navigate('/productsTable');
+    }
+  }, [products, navigate]);
+
   return (
     <Container sx={{ py: 4 }}>
       <Grid container spacing={3}>
-        {products.length > 0 ? (
+        {products && products.length > 0 ? (
           products.map((product, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
+            <Grid item xs={12} sm={3} key={index}>
               <Card
                 sx={{
+                  width: '250px',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -26,17 +50,34 @@ const ProductsPreview = ({ products = [] }) => {
                 <CardMedia
                   component='img'
                   height='200'
-                  image={product.photo || 'https://via.placeholder.com/300'}
+                  maxWidth='250px'
+                  image={
+                    isValidUrl(product.photo)
+                      ? product.photo
+                      : './src/images/no_photo.jpg'
+                  }
                   alt={product.name}
                 />
                 <CardContent>
-                  <Typography variant='h6' gutterBottom>
+                  <Typography variant='h6' component='h5' gutterBottom>
                     {product.name}
                   </Typography>
-                  <Typography variant='body2' color='text.secondary'>
+                  <Typography
+                    variant='body2'
+                    component='span'
+                    color='#FC5B00'
+                    fontSize='16px'
+                    fontWeight='700'
+                    mr='30px'
+                  >
                     Price: ${product.price}
                   </Typography>
-                  <Typography variant='body2' color='text.secondary'>
+                  <Typography
+                    variant='body2'
+                    component='span'
+                    color='black'
+                    fontSize='16px'
+                  >
                     Quantity: {product.quantity}
                   </Typography>
                 </CardContent>
@@ -44,15 +85,17 @@ const ProductsPreview = ({ products = [] }) => {
                   sx={{
                     p: 2,
                     mt: 'auto',
-                    bgcolor: 'success.light',
-                    textAlign: 'center',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: '5px',
                   }}
                 >
+                  <ShoppingCartOutlinedIcon sx={{ fill: '#37b86c' }} />
                   <Typography
                     variant='body2'
-                    sx={{ color: 'white', fontWeight: 'bold' }}
+                    sx={{ color: '#37b86c', fontWeight: 'bold' }}
                   >
-                    ✅ Ready to send
+                    Ready to send
                   </Typography>
                 </Box>
               </Card>

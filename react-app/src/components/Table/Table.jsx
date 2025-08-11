@@ -134,10 +134,10 @@ const TableMain = ({ rows, onEdit, onDelete }) => {
                     </TableCell>
                     <TableCell>
                       <IconButton onClick={() => onEdit(row)}>
-                        <EditIcon />
+                        <EditIcon sx={{ fill: 'black' }} />
                       </IconButton>
                       <IconButton onClick={() => onDelete(row)}>
-                        <DeleteIcon />
+                        <DeleteIcon sx={{ fill: 'black' }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>
